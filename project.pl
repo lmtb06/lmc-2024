@@ -109,25 +109,28 @@ decompose_rec([], [], []).
 % et Q contenant la liste l'équation entre H1 et H2 et le reste. On appel ensuite récursivement sur le reste des listes
 decompose_rec([H1|RS], [H2|R2S], [H1?=H2 | Q]) :- decompose_rec(RS, R2S, Q).
 
-% condition d'arret d'unifie
-unifie([]).  
+
 
 % unfie prend une liste d'équation. 
 % regle(H, REGLEAPPLICABLE) permet de trouver la règle qui s'applique sur la première équation. 
 % on affiche la réduction
 % on appel à reduit de la regle applicable sur H, R est le reste de la liste, Q le resultat de reduit
 % on appel recursivement unifie sur Q. 
-unifie([H|R]) :-
-    regle(H, REGLEAPPLICABLE),
-    set_echo,
-    echo(reduit(REGLEAPPLICABLE, H, R, Q)), nl,
-    reduit(REGLEAPPLICABLE, H, R, Q),
-    unifie(Q).
 
+unifie(P) :-
+    unifie(P, choix_premier).
+
+% condition d'arret d'unifie
+unifie([], _).
+
+unifie(P, S) :-
+    echo("system: "), echo(P), nl,
+    call(S, P, Q, E, R),
+    echo(R), echo(": "), echo(E), nl,
+    unifie(Q,S).
 
 
 %question 2
-
 
 % choix pondere 1 = clash, check > rename, simplify > orient > decompose > expand
 % choix pondere 2 = decompose > expand > clash > check > rename > simplify > orient
@@ -136,26 +139,24 @@ unifie([H|R]) :-
 % Liste dans l'ordre de priorité maximale à minimale pour pondere_1
 liste_choix_pondere_1([clash, check, rename, simplify, orient, decompose, expand]).
 
-% Si unifie de choix premier on applique unifie "classique"
-unifie(P, choix_premier) :- unifie(P), !.
-
 % Unifie avec choix pondere_1 
 % Choisie la bonne équation avec la bonne règle à appliquer
 % on affiche la réduction
 % on appel à reduit de la regle applicable sur E, Q est le reste de la liste, P1 le resultat de reduit
 % on appel recursivement unifie sur P1 avec choix_pondere_1 
-unifie(P, choix_pondere_1) :- choix_pondere_1(P, Q, E, R),
-    set_echo, echo(reduit(R, E, Q, P1)), nl,
-    reduit(R, E, Q, P1),
-    unifie(P1, choix_pondere_1).
+% choix premier
+choix_premier([Tete|Queue], Q, Tete, R) :- 
+    regle(Tete, R),
+    reduit(R, Tete, Queue, Q).
 
 % Choix pondere_1 
 % Je recupère ma liste des priorités
 % Parcours la liste des priorité
 % Pour chaque Regle on regarde si on peut appliquer la regle dans l'ordre de priorité
 choix_pondere_1(P, Q, E, R) :- 
-    liste_choix_pondere_1(LISTE), 
+    liste_choix_pondere_1(LISTE),
     member(REGLE, LISTE),
+    member(E,P),
     regle(E, REGLE), 
     !, 
     R = REGLE, 
