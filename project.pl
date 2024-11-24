@@ -161,6 +161,7 @@ unifie(P, choix_pondere_1) :- choix_pondere_1(P, Q, E, R),
 choix_pondere_1(P, Q, E, R) :- 
     liste_choix_pondere_1(LISTE), 
     member(REGLE, LISTE),
+    member(E, P),
     regle(E, REGLE), 
     !, 
     R = REGLE, 
