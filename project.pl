@@ -153,6 +153,8 @@ choix_premier([Tete|Queue], Q, Tete, R) :-
 % Je recupère ma liste des priorités
 % Parcours la liste des priorité
 % Pour chaque Regle on regarde si on peut appliquer la regle dans l'ordre de priorité
+% Affectation de la règle à R pour pouvoir l'appliquer à la fin
+% On retire l'équation E de P et on le met dans Q
 choix_pondere_1(P, Q, E, R) :- 
     liste_choix_pondere_1(LISTE),
     member(REGLE, LISTE),
