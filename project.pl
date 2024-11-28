@@ -30,7 +30,7 @@ regle(_?=T, rename) :- var(T), !.
 
 
 % Regle simplify : renvoie vrai si T est une constante, sinon faux et on s'arrête.
-regle(_?=T, simplify) :- atomic(T), !.
+regle(X?=T, simplify) :- atomic(T), not(X==T), !.
 
 
 % Regle expand : renvoie vrai si T est composé et que X (X variable) n'est pas dans T, sinon faux et on s'arrête.
@@ -138,6 +138,8 @@ unifie(P, S) :-
 
 % Liste dans l'ordre de priorité maximale à minimale pour pondere_1
 liste_choix_pondere_1([clash, check, rename, simplify, orient, decompose, expand]).
+liste_choix_pondere_2([simplify, rename, decompose, expand, clash, check, orient]).
+liste_choix_pondere_3([expand, decompose, simplify, rename, clash, check, orient]).
 
 % Unifie avec choix pondere_1 
 % Choisie la bonne équation avec la bonne règle à appliquer
@@ -149,6 +151,17 @@ choix_premier([Tete|Queue], Q, Tete, R) :-
     regle(Tete, R),
     reduit(R, Tete, Queue, Q).
 
+
+choisir_element_regle(P, Q, E, R, LISTE) :-
+    member(REGLE, LISTE),
+    member(E, P),
+    regle(E, REGLE),
+    !,
+    R = REGLE,
+    select(E, P, ResteP),         
+    reduit(REGLE, E, ResteP, Q),   
+    Q \= P.   
+
 % Choix pondere_1 
 % Je recupère ma liste des priorités
 % Parcours la liste des priorité
@@ -157,11 +170,29 @@ choix_premier([Tete|Queue], Q, Tete, R) :-
 % On retire l'équation E de P et on le met dans Q
 choix_pondere_1(P, Q, E, R) :- 
     liste_choix_pondere_1(LISTE),
-    member(REGLE, LISTE),
-    member(E,P),
-    regle(E, REGLE), 
-    !, 
-    R = REGLE, 
-    select(E, P, Q).
+    choisir_element_regle(P, Q, E, R, LISTE).
+    
+choix_pondere_2(P, Q, E, R) :- 
+    liste_choix_pondere_2(LISTE),
+    choisir_element_regle(P, Q, E, R, LISTE).
+
+choix_pondere_3(P, Q, E, R) :- 
+liste_choix_pondere_3(LISTE),
+    choisir_element_regle(P, Q, E, R, LISTE).
+
+% choix_aleatoire
+
+% choix_plus_courte_equation
+
+% choix_plus_longue_equation
+
+% choix_largeur
 
 
+
+
+% Permet d’inhiber la trace d’affichage des règles appliquées à chaque étape.
+unif(P,S):- clr_echo, unifie(P,S).
+
+% Permet d’activer la trace d’affichage des règles appliquées à chaque étape.
+trace_unif(P,S):- set_echo, unifie(P,S).
