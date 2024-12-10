@@ -1,4 +1,4 @@
-:- use_module(['substitution.pl']).
+:- use_module([substitution]).
 
 :- begin_tests(substitution).
 
