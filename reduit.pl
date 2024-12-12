@@ -24,6 +24,10 @@ reduit(orient, T?=X, P, Q) :-
 	append([X ?= T], P, Q).
 
 reduit(decompose, C1?=C2, P, Q) :-
+	atom(C1),
+	atom(C2).
+
+reduit(decompose, C1?=C2, P, Q) :-
 	C1 =.. [_|Args1],
 	C2 =.. [_|Args2],
 	decompose_rec(Args1, Args2, Q2),
