@@ -34,6 +34,10 @@ reduit(orient, T?=X, P, Q) :-
 % On décompose C1 et C2 et on garde leurs arguments.
 % On applique ensuite la règle décompose_rec qui permet de créer les nouvelles équations
 % on ajoute les nouvelles équations au système pour former Q.
+reduit(decompose, C1?=C2, P, P) :-
+	atom(C1),
+	atom(C2).
+
 reduit(decompose, C1?=C2, P, Q) :-
 	C1 =.. [_|Args1],
 	C2 =.. [_|Args2],

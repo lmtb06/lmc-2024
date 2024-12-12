@@ -1,4 +1,4 @@
-:- module(choix_pondere_i, [liste_choix_pondere_1/1, liste_choix_pondere_2/1, liste_choix_pondere_3/1, choix_pondere_1/5, choix_pondere_2/5, choix_pondere_3/5, choisir_element_regle/5]).
+:- module(choix_pondere_i, [liste_choix_pondere_1/1, liste_choix_pondere_2/1, liste_choix_pondere_3/1, choix_pondere_1/4, choix_pondere_2/4, choix_pondere_3/4, choisir_element_regle/5]).
 :- use_module([regle, reduit]).
 
 % Liste des priorités pour le choix pondéré 1
@@ -16,21 +16,21 @@ liste_choix_pondere_3([expand, decompose, simplify, rename, clash, check, orient
 
 % On applique choisir_element_regle_largeur selon les règles de la liste_choix_pondere_1
 % Choisi et réduit l'équation
-choix_pondere_1(P, Q, E, R, _) :-
+choix_pondere_1(P, Q, E, R) :-
 	liste_choix_pondere_1(LISTE),
 	choisir_element_regle(P, Q, E, R, LISTE).
 
 
 % On applique choisir_element_regle_largeur selon les règles de la liste_choix_pondere_2
 % Choisi et réduit l'équation
-choix_pondere_2(P, Q, E, R, _) :-
+choix_pondere_2(P, Q, E, R) :-
 	liste_choix_pondere_2(LISTE),
 	choisir_element_regle(P, Q, E, R, LISTE).
 
 
 % On applique choisir_element_regle_largeur selon les règles de la liste_choix_pondere_3
 % Choisi et réduit l'équation
-choix_pondere_3(P, Q, E, R, _) :-
+choix_pondere_3(P, Q, E, R) :-
 	liste_choix_pondere_3(LISTE),
 	choisir_element_regle(P, Q, E, R, LISTE).
 

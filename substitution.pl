@@ -15,7 +15,6 @@ substitution(X, T, S, T):-
 substitution(X, T, S, R):-
 	compound(S),
 	!,
-	var(R),
 	compound_name_arguments(S, Nom, ArgsS),
 	maplist(substitution(X, T),
 		ArgsS,

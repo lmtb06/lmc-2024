@@ -9,7 +9,9 @@ resout(R, X = T, S1, S2):-
 	substitution(X, T, S1, S),
     append(S, [X = T], S2).
 
-
+resout(decompose, X = T, S1, S1):-
+		atom(X),atom(T).
+	
 % On vérifie que R soit l'une des règles suivantes : decompose, orient.
 % Il n'y a rien à faire pour ces règles 
 resout(R, _, S1, S1):-

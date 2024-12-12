@@ -1,59 +1,25 @@
-:- use_module([code_fourni, regle, reduit, substitution, resout, choix_pondere_i, choix_min_max]).
+:- use_module([code_fourni, unification, strategies]).
 
+% TODO Fix bug renommage des variables souvent au niveau du dernier expand de l'exemple 2 du parcours en profondeur 
 
-afficher_mgu(bottom):-
-	echo("No"),nl.
+exemples_choix_premier:-
+	write("Strategie choix premier:"),nl,nl,
+	write("Exemple 1:"),nl,
+	trace_unif([f(X,Y) ?= f(g(Z),h(a)), Z ?= f(Y)], choix_premier),
+	write("Exemple 2:"),nl,
+	trace_unif([f(X,Y) ?= f(g(Z),h(a)), Z ?= f(X)], choix_premier),
+	write("Exemple 3:"),nl,
+	trace_unif([f(X,Y) ?= f(g(Z),h(a)), X ?= f(X), Z ?= f(X)], choix_premier).
 
-afficher_mgu([]):-
-	nl,echo("Yes"),nl.
+exemples_choix_premier_largeur:-
+	write("Strategie choix premier parcours en largeur:"),nl,nl,
+	write("Exemple 1:"),nl,
+	trace_unif([f(X,Y) ?= f(g(Z),h(a)), Z ?= f(Y)], choix_premier_largeur),
+	write("Exemple 2:"),nl,
+	trace_unif([f(X,Y) ?= f(g(Z),h(a)), Z ?= f(X)], choix_premier_largeur),
+	write("Exemple 3:"),nl,
+	trace_unif([f(X,Y) ?= f(g(Z),h(a)), X ?= f(X), Z ?= f(X)], choix_premier_largeur). % Le check est détecté beaucoup plus tôt comparé au choix premier normal, nous évitant des traitements en plus en soit en utilisant le parcours en largeur, on effectue le chemin le plus court pour determiner si le système n'a pas de solution comparé à la même stratégie utilisant un parcours en profondeur
 
-afficher_mgu([X = T|Q]):-
-	echo(X), echo(" = "), echo(T),nl,
-	afficher_mgu(Q).
-
-afficher_systeme(P):-
-	echo("system: "), echo(P),nl.
-
-afficher_application_regle(E,R):-
-	echo(R), echo(": "), echo(E),nl.
-
-unifie(P) :-
-	unifie(P, choix_premier, parcours_profondeur).
-
-unifie(P, Strat, Parcours) :-
-	unifie(P, [], S2, Strat, Parcours),nl,
-	afficher_mgu(S2),nl.
-
-unifie([],S1, S1,_, _):-
-	S1 \== bottom.
-
-unifie(_,bottom, bottom,_, _).
-
-unifie(P, S1, S2, Strat, Parcours) :-
-	S1 \== bottom,
-	afficher_systeme(P),
-	call(Strat, P, Q, X ?= T, R, Parcours),
-	afficher_application_regle(X ?= T,R),
-	resout(R,X = T,S1,S3),
-	unifie(Q, S3, S2, Strat, Parcours).
-
-
-
-extraction_gauche(E, L, N):-
-	append([E], N, L).
-
-choix_premier(P, Q, E, R, _):-
-	extraction_gauche(E, P, P1),
-	regle(E, R),
-	reduit(R, E, P1, Q).
-
-
-
-unif(P, S, Parcours):-
-	clr_echo,
-	unifie(P, S, Parcours).
-
-
-trace_unif(P, S, Parcours):-
-	set_echo,
-	unifie(P, S, Parcours).
+start:-
+	exemples_choix_premier(),
+	exemples_choix_premier_largeur().
