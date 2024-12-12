@@ -1,5 +1,5 @@
-:- use_module([regle,code_fourni]).
-
+:- use_module([regle]).
+:- op(20,xfy,?=).
 :- begin_tests(regle).
 
 % Test Rename
