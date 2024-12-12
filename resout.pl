@@ -10,10 +10,8 @@ resout(R, X = T, S1, S2):-
     append(S, [X = T], S2).
 
 resout(decompose, X = T, S1, S1):-
-		atom(X),atom(T).
-	
-% On vérifie que R soit l'une des règles suivantes : decompose, orient.
-% Il n'y a rien à faire pour ces règles 
+	atomic(X),atomic(T).
+
 resout(R, _, S1, S1):-
     member(R, [decompose, orient]).
 

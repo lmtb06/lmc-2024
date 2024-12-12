@@ -35,8 +35,7 @@ reduit(orient, T?=X, P, Q) :-
 % On applique ensuite la règle décompose_rec qui permet de créer les nouvelles équations
 % on ajoute les nouvelles équations au système pour former Q.
 reduit(decompose, C1?=C2, P, P) :-
-	atom(C1),
-	atom(C2).
+	atomic(C1).
 
 reduit(decompose, C1?=C2, P, Q) :-
 	C1 =.. [_|Args1],
