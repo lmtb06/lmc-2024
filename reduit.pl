@@ -23,7 +23,7 @@ reduit(R, X?=T, P, Q) :-
 reduit(orient, T?=X, P, Q) :-
 	append([X ?= T], P, Q).
 
-reduit(decompose, C1?=C2, P, Q) :-
+reduit(decompose, C1?=C2, P, P) :-
 	atom(C1),
 	atom(C2).
 

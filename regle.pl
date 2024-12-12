@@ -1,7 +1,7 @@
 :- module(regle, [regle/2]).
 :- use_module([code_fourni,occur_check]).
 
-% Question 1, a) regle(E,R) : détermine la règle de transformation R qui s’applique à l’équation E
+% regle(E,R) : détermine la règle de transformation R qui s’applique à l’équation E
 % =================================================================================================================
 
 
@@ -59,7 +59,7 @@ regle(C1?=C2, decompose) :-
 
 regle(C1?=C2, clash) :-
 	atom(C1),
-	atom(C2), \+(C1 == C2).
+	atom(C2), C1 \== C2.
 
 regle(C1?=C2, clash) :-
 	compound(C1),
