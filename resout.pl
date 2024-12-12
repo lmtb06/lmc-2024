@@ -8,7 +8,7 @@ resout(R, X = T, S1, S2):-
     append(S, [X = T], S2).
 
 resout(decompose, X = T, S1, S1):-
-	atom(X),atom(T).
+	atomic(X),atomic(T).
 
 resout(R, _, S1, S1):-
     member(R, [decompose, orient]).

@@ -21,5 +21,6 @@ exemples_choix_premier_largeur:-
 	trace_unif([f(X,Y) ?= f(g(Z),h(a)), X ?= f(X), Z ?= f(X)], choix_premier_largeur). % Le check est détecté beaucoup plus tôt comparé au choix premier normal, nous évitant des traitements en plus en soit en utilisant le parcours en largeur, on effectue le chemin le plus court pour determiner si le système n'a pas de solution comparé à la même stratégie utilisant un parcours en profondeur
 
 start:-
+trace_unif([f(a) ?= f(b), X ?= a, f(X, g(Y)) ?= f(a, g(b)), a ?= f(c)], choix_premier_largeur),
 	exemples_choix_premier(),
 	exemples_choix_premier_largeur().

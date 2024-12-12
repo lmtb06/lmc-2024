@@ -45,8 +45,7 @@ regle(T?=X, orient) :-
 % Regle decompose : renvoie vrai si C1 et C2 sont composés et qu'ils ont les même symbole et arité.
 
 regle(C1?=C2, decompose) :-
-	atom(C1),
-	atom(C2), C1 == C2.
+	atomic(C1), C1 == C2.
 
 regle(C1?=C2, decompose) :-
 	compound(C1),
@@ -58,8 +57,7 @@ regle(C1?=C2, decompose) :-
 % Regle clash : renvoie vrai si C1 et C2 sont composés mais qu'ils n'ont pas les même symbole ou arité.
 
 regle(C1?=C2, clash) :-
-	atom(C1),
-	atom(C2), C1 \== C2.
+	(atomic(C1);atomic(C2)), C1 \== C2.
 
 regle(C1?=C2, clash) :-
 	compound(C1),
